@@ -24,20 +24,22 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get("/api", (req, res) => {
+  let myCurrentDate = new Date();
+  res.json({"unix": myCurrentDate.getTime(), "utc": myCurrentDate.toString()});
+})
+
 app.get("/api/:timestamp", (req, res)=> {
   let timestamp = req.params.timestamp;
-  let date = new Date(timestamp);
-  console.log("Start now!!!");
-  console.log(date);
-  console.log(timestamp);
-  console.log("timestamp API");
-  console.log(date.toUTCString());
   let myDate = new Date(timestamp);
-  console.log(myDate.toUTCString());
-  if(date=== "Invalide Date") {
+  console.log("Start now!!!");
+  
+  console.log("timestamp API");
+  console.log(typeof(myDate));
+  if(myDate == "Invalid Date") {
     res.json({error: "Invalid Date"});
   }
-  res.json({unix: timestamp, utc: date.toUTCString()});
+  res.json({unix: timestamp, utc: myDate.toString()});
 })
 
 
