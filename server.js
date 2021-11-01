@@ -26,6 +26,7 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api", (req, res) => {
   let myCurrentDate = new Date();
+  console.log(myCurrentDate);
   res.json({"unix": myCurrentDate.getTime(), "utc": myCurrentDate.toString()});
 })
 
