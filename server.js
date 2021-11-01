@@ -32,15 +32,20 @@ app.get("/api", (req, res) => {
 
 app.get("/api/:timestamp", (req, res)=> {
   let timestamp = req.params.timestamp;
+  let stamp = parseInt(timestamp)
+  if(stamp > 10000) {
+    let theDate = parseInt(stamp);
+    let unixDate = new Date(theDate);
+    res.json({unix: unixDate.getTime, utc: unixDate.toUTCString()});
+    return;
+  }
   let myDate = new Date(timestamp);
-  console.log("Start now!!!");
-  
-  console.log("timestamp API");
-  console.log(typeof(myDate));
   if(myDate == "Invalid Date") {
     res.json({error: "Invalid Date"});
+    return;
+  }else{
+    res.json({unix: myDate.getTime(), utc: myDate.toUTCString()});
   }
-  res.json({unix: myDate.getTime(), utc: myDate.toString()});
 })
 
 
