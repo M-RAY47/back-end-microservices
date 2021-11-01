@@ -36,7 +36,7 @@ app.get("/api/:timestamp", (req, res)=> {
   if(stamp > 10000) {
     let theDate = parseInt(stamp);
     let unixDate = new Date(theDate);
-    res.json({unix: unixDate.getTime, utc: unixDate.toUTCString()});
+    res.json({unix: unixDate.getTime(), utc: unixDate.toUTCString()});
     return;
   }
   let myDate = new Date(timestamp);
