@@ -31,15 +31,15 @@ app.get("/api", (req, res) => {
 })
 
 app.get("/api/:timestamp", (req, res)=> {
-  let timestamp = req.params.timestamp;
-  let stamp = parseInt(timestamp);
+  let timeStamp = req.params.timestamp;
+  let stamp = parseInt(timeStamp);
   if(stamp > 10000) {
     let theDate = parseInt(stamp);
     let unixDate = new Date(theDate);
     res.json({unix: unixDate.getTime(), utc: unixDate.toUTCString()});
     return;
   }
-  let myDate = new Date(timestamp);
+  let myDate = new Date(timeStamp);
   if(myDate == "Invalid Date") {
     res.json({error: "Invalid Date"});
     return;
@@ -48,8 +48,8 @@ app.get("/api/:timestamp", (req, res)=> {
   }
 })
 
-
+let port = process.env.PORT || 3000;
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+var listener = app.listen(port, ()=> {
   console.log('Your app is listening on port ' + listener.address().port);
 });
