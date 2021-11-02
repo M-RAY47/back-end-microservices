@@ -32,7 +32,7 @@ app.get("/api", (req, res) => {
 
 app.get("/api/:timestamp", (req, res)=> {
   let timestamp = req.params.timestamp;
-  let stamp = parseInt(timestamp)
+  let stamp = parseInt(timestamp);
   if(stamp > 10000) {
     let theDate = parseInt(stamp);
     let unixDate = new Date(theDate);
