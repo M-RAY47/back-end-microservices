@@ -33,20 +33,23 @@ app.get("/api", (req, res) => {
 app.get("/api/:timestamp", (req, res)=> {
   let timeStamp = req.params.timestamp;
   let stamp = parseInt(timeStamp);
-  if(stamp > 10000 || !/^\d{4}-/.test(timeStamp)) {
-    let theDate = parseInt(stamp);
-    let unixDate = new Date(theDate);
+  console.log("stampValue:", stamp, "   ", "timestampValue:", timeStamp);
+  if(stamp > 10000) {
+    // let theDate = parseInt(stamp);
+    let unixDate = new Date(stamp);
+    console.log("I am in the stamp loop!!!")
     res.json({unix: unixDate.getTime(), utc: unixDate.toUTCString()});
     return;
   }
   let myDate = new Date(timeStamp);
-  if(myDate == "Invalid Date") {
+  if(myDate.toString() == "Invalid Date") {
     res.json({error: "Invalid Date"});
     return;
   }else{
     res.json({unix: myDate.getTime(), utc: myDate.toUTCString()});
   }
 })
+
 
 let port = process.env.PORT || 3000;
 // listen for requests :)
