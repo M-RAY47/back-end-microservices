@@ -33,7 +33,7 @@ app.get("/api", (req, res) => {
 app.get("/api/:timestamp", (req, res)=> {
   let timeStamp = req.params.timestamp;
   let stamp = parseInt(timeStamp);
-  if(stamp > 10000) {
+  if(stamp > 10000 || !timeStamp == /\d{5}/) {
     let theDate = parseInt(stamp);
     let unixDate = new Date(theDate);
     res.json({unix: unixDate.getTime(), utc: unixDate.toUTCString()});
