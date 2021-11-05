@@ -18,19 +18,26 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+app.get("/timestamp", function (req, res) {
+  res.sendFile(__dirname + '/views/timestamp.html');
+});
+
+app.get("/headerparser", function (req, res) {
+  res.sendFile(__dirname + '/views/headerparser.html');
+});
 
 // your first API endpoint... 
-app.get("/api/hello", function (req, res) {
+app.get("/timestamp/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api", (req, res) => {
+app.get("/timestamp/api", (req, res) => {
   let myCurrentDate = new Date();
   console.log(myCurrentDate);
   res.json({"unix": myCurrentDate.getTime(), "utc": myCurrentDate.toString()});
 })
 
-app.get("/api/:timestamp", (req, res)=> {
+app.get("/timestamp/api/:timestamp", (req, res)=> {
   let timeStamp = req.params.timestamp;
   let stamp = parseInt(timeStamp);
   console.log("stampValue:", stamp, "   ", "timestampValue:", timeStamp);
@@ -50,15 +57,14 @@ app.get("/api/:timestamp", (req, res)=> {
   }
 })
 
-app.get('/api/whoami', (req, res, next)=> {
-  let {ipaddress, language, software} =req
+app.get('/headerparser/api/whoami', (req, res)=> {
   res.json({
-    "ipaddress": ipaddress,
-    "language": language,
-    "software": software,
-  });
-  next();
+    "ipaddress": req.ip,
+    "language": req.headers["accept-language"],
+    "software": req.headers["user-agent"]
+  })
 })
+
 let port = process.env.PORT || 3000;
 // listen for requests :)
 var listener = app.listen(port, ()=> {
