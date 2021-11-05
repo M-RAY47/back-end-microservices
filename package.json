@@ -1,24 +1,26 @@
 {
-	"name": "fcc-api-projects-boilerplate",
+	"name": "back-end-microservices",
 	"version": "0.0.1",
-	"description": "An FCC Backend Challenge",
+	"description": "An FCC Backend Challenge on my Portfolio",
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js"
 	},
 	"dependencies": {
-		"express": "^4.12.4",
+		"express": "^4.17.1",
 		"cors": "^2.8.0"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://githost.com/camper/repo.git"
+		"url": "https://github.com/M-RAY47/back-end-microservices.git"
 	},
 	"keywords": [
 		"node",
+		"heroku",
 		"hyperdev",
 		"express",
 		"freecodecamp"
 	],
+	"author": "Abdou Yahouza MRAY",
 	"license": "MIT"
 }
