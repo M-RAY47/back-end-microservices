@@ -50,7 +50,15 @@ app.get("/api/:timestamp", (req, res)=> {
   }
 })
 
-
+app.get('/api/whoami', (req, res, next)=> {
+  let {ipaddress, language, software} =req
+  res.json({
+    "ipaddress": ipaddress,
+    "language": language,
+    "software": software,
+  });
+  next();
+})
 let port = process.env.PORT || 3000;
 // listen for requests :)
 var listener = app.listen(port, ()=> {
