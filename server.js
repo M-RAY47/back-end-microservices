@@ -26,6 +26,10 @@ app.get("/headerparser", function (req, res) {
   res.sendFile(__dirname + '/views/headerparser.html');
 });
 
+app.get("/urlshortener", function (req, res) {
+  res.sendFile(__dirname + '/views/urlshortener.html');
+});
+
 // your first API endpoint... 
 app.get("/timestamp/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
