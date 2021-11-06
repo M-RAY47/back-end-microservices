@@ -1,5 +1,6 @@
 // server.js
 // where your node app starts
+require('dotenv').config();
 
 // init project
 var express = require('express');
@@ -68,6 +69,8 @@ app.get('/headerparser/api/whoami', (req, res)=> {
     "software": req.headers["user-agent"]
   })
 })
+
+app.post("/urlshortener")
 
 let port = process.env.PORT || 3000;
 // listen for requests :)
