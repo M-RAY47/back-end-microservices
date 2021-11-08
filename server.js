@@ -70,7 +70,12 @@ app.get('/headerparser/api/whoami', (req, res)=> {
   })
 })
 
-app.post("/urlshortener")
+app.post("/urlshortener/api/shorturl", (req, res)=> {
+  res.json({
+    original_url : 'https://freeCodeCamp.org',
+    short_url : 1
+  })
+})
 
 let port = process.env.PORT || 3000;
 // listen for requests :)
