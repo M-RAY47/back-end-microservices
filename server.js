@@ -3,7 +3,27 @@
 require('dotenv').config();
 //import mongoose and mongoDB
 const mongoose = require('mongoose');
-const mongoDB = require('mongodb');
+// connecting to the database
+const bodyParser = require('body-parser');
+
+
+
+// const { MongoClient } = require('mongodb');
+// const uri = "mongodb+srv://M-RAY47:<password>@cluster0.ktuto.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
+
+
+
+
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const Schema = mongoose.Schema;
+const schema = new Schema({url: 'String'});
+const Url = mongoose.model('Url', schema);
 // init project
 var express = require('express');
 var app = express();
@@ -72,12 +92,15 @@ app.get('/headerparser/api/whoami', (req, res)=> {
   })
 })
 
-app.post("/urlshortener/api/shorturl", (req, res)=> {
-  res.json({
-    original_url : 'https://freeCodeCamp.org',
-    short_url : 1
+app.use(bodyParser.urlencoded({ extended: false }));
+app.post("/urlshortener/api/shorturl", async (req, res)=> {
+  await Url.create({url:req.body.url}, (err, data)=> {
+    res.json({Created: true});
   })
+  res.json({ original_url : req.body.url, short_url : Url.findById})
 })
+
+
 
 let port = process.env.PORT || 3000;
 // listen for requests :)
