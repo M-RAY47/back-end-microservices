@@ -1,7 +1,9 @@
 // server.js
 // where your node app starts
 require('dotenv').config();
-
+//import mongoose and mongoDB
+const mongoose = require('mongoose');
+const mongoDB = require('mongodb');
 // init project
 var express = require('express');
 var app = express();
