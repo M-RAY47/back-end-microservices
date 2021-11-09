@@ -22,8 +22,8 @@ const bodyParser = require('body-parser');
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const Schema = mongoose.Schema;
-const schema = new Schema({url: 'String'});
-const Url = mongoose.model('Url', schema);
+const urlSchema = new Schema({original: {type:'String', required: true}, short: Number});
+const Url = mongoose.model('Url', urlSchema);
 // init project
 var express = require('express');
 var app = express();
@@ -93,6 +93,7 @@ app.get('/headerparser/api/whoami', (req, res)=> {
 })
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.post("/urlshortener/api/shorturl", async (req, res)=> {
   await Url.create({url:req.body.url}, (err, data)=> {
     res.json({Created: true});
