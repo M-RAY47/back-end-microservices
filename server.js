@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 // connecting to the database
 const bodyParser = require('body-parser');
 
-
+const dns = require('dns')
 
 // const { MongoClient } = require('mongodb');
 // const uri = "mongodb+srv://M-RAY47:<password>@cluster0.ktuto.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
@@ -95,6 +95,7 @@ app.get('/headerparser/api/whoami', (req, res)=> {
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post("/urlshortener/api/shorturl", async (req, res)=> {
+  const bodyUrl = req.body.url;
   await Url.create({url:req.body.url}, (err, data)=> {
     res.json({Created: true});
   })
