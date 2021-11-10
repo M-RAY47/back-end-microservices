@@ -102,7 +102,7 @@ app.post("/urlshortener/api/shorturl", (req, res)=> {
   console.log("Url checking:",checkUrl);
 })
 
-app.get("urlshortener/api/shorturl/:id", (req, res)=> {
+app.get("/urlshortener/api/shorturl/:id", (req, res)=> {
   const id= req.params.id;
   Url.findById(id, (err, data)=> {
     if(!data){
