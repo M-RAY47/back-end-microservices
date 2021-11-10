@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const dns = require('dns')
-
+const urlParser = require('url');
 // const { MongoClient } = require('mongodb');
 // const uri = "mongodb+srv://M-RAY47:<password>@cluster0.ktuto.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 // const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -96,10 +96,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post("/urlshortener/api/shorturl", async (req, res)=> {
   const bodyUrl = req.body.url;
-  await Url.create({url:req.body.url}, (err, data)=> {
-    res.json({Created: true});
+  const checkUrl = dns.lookup(urlParser(bodyUrl).homename, (err, address)=> {
+    if(!address) {
+      res.json({error: "Invalid URL"});
+    }else{
+      const url = new Url({url: bodyUrl});
+      url.save((err, data)=> {
+        res.json({
+          original_url : data.url, short_url : data.id
+        })
+      })
+    }
   })
-  res.json({ original_url : req.body.url, short_url : Url.findById})
+  console.log("Url checking:",checkUrl);
 })
 
 
