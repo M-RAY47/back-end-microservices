@@ -22,7 +22,7 @@ const urlParser = require('url');
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const Schema = mongoose.Schema;
-const urlSchema = new Schema({original: {type:'String', required: true}, short: Number});
+const urlSchema = new Schema({url: {type:'String', required: true}});
 const Url = mongoose.model('Url', urlSchema);
 // init project
 var express = require('express');
@@ -94,7 +94,7 @@ app.get('/headerparser/api/whoami', (req, res)=> {
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post("/urlshortener/api/shorturl", async (req, res)=> {
+app.post("/urlshortener/api/shorturl", (req, res)=> {
   const bodyUrl = req.body.url;
   const checkUrl = dns.lookup(urlParser(bodyUrl).homename, (err, address)=> {
     if(!address) {
@@ -111,6 +111,16 @@ app.post("/urlshortener/api/shorturl", async (req, res)=> {
   console.log("Url checking:",checkUrl);
 })
 
+app.get("urlshortener/api/shorturl/:id", (req, res)=> {
+  const id= req.params.id;
+  Url.findById(id, (err, data)=> {
+    if(!data){
+      res.json({error: "Invalid URL"});
+    } else {
+      res.redirect(data.url);
+    }
+  })
+})
 
 
 let port = process.env.PORT || 3000;
