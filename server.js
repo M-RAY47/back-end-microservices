@@ -41,7 +41,10 @@ app.get("/headerparser", function (req, res) {
 app.get("/urlshortener", function (req, res) {
   res.sendFile(__dirname + '/views/urlshortener.html');
 });
-
+// Add exercise Tracker api routers
+app.get("/exercisetracker", function (req, res) {
+  res.sendFile(__dirname + '/views/exercisetracker.html');
+});
 // your first API endpoint... 
 app.get("/timestamp/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
