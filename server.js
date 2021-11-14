@@ -116,6 +116,21 @@ app.get("/urlshortener/api/shorturl/:id", (req, res)=> {
   })
 })
 
+// add exercice tracker apis
+app.post('/exercisetracker/api/users', (req, res) => {
+  res.json({
+    username: "fcc_test",
+    _id: "5fb5853f734231456ccb3b05"
+  })
+})
+
+app.get('/exercisetracker/api/users', (req, res) => {
+  res.json({
+    _id: "549562",
+    "username": "fcc_test...",
+    "__v": 0
+  })
+})
 
 let port = process.env.PORT || 3000;
 // listen for requests :)
