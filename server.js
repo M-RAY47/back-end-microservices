@@ -10,6 +10,7 @@ const dns = require('dns')
 const urlParser = require('url');
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const mongoose1 = mongoose.connect(process.env.MONGOE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const Schema = mongoose.Schema;
 const urlSchema = new Schema({url: {type:'String', required: true}});
 const Url = mongoose.model('Url', urlSchema);
@@ -17,6 +18,9 @@ const Url = mongoose.model('Url', urlSchema);
 var express = require('express');
 var app = express();
 
+const Schema1 = mongoose1.Schema
+const PersonSchema = new Schema1({username: {type:'String', required: true, unique: true}})
+const Person = mongoose1.model('Person', PersonSchema);
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
 var cors = require('cors');
