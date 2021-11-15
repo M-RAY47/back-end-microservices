@@ -120,9 +120,12 @@ app.get("/urlshortener/api/shorturl/:id", (req, res)=> {
 
 // add exercice tracker apis
 app.post('/exercisetracker/api/users', (req, res) => {
-  res.json({
-    username: "fcc_test",
-    _id: "5fb5853f734231456ccb3b05"
+  const newPerson = new Person({username: req.body.username});
+  newPerson.save((err,data) => {
+    res.json({
+      username: data.username;
+      _id: data.id;
+    })
   })
 })
 
