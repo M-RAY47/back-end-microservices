@@ -17,7 +17,7 @@ const Url = mongoose.model('Url', urlSchema);
 // init project
 var express = require('express');
 var app = express();
-
+ // Create new Schema Person
 const Schema1 = mongoose1.Schema
 const PersonSchema = new Schema1({username: {type:'String', required: true, unique: true}})
 const Person = mongoose1.model('Person', PersonSchema);
