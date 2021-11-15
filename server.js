@@ -123,8 +123,8 @@ app.post('/exercisetracker/api/users', (req, res) => {
   const newPerson = new Person({username: req.body.username});
   newPerson.save((err,data) => {
     res.json({
-      username: data.username;
-      _id: data.id;
+      "username": data.username,
+      "_id": data.id
     })
   })
 })
