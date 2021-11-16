@@ -142,8 +142,10 @@ app.post('/exercisetracker/api/users', (req, res) => {
       })
     })
   } else{
-    const newPerson = Person.findOne(newPerson.username);
-    res.json({"username": newPerson.username, "_id": newPerson.id});
+    Person.findOne(newPerson.username, (err,data) => {
+      if(err) return console.error(err);
+      res.json({"username": data.username, "_id": data.id});
+    });
   }
 });
 
