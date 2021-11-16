@@ -16,9 +16,21 @@ const Url = mongoose.model('Url', urlSchema);
 // init project
 var express = require('express');
 var app = express();
- // Create new Schema Person
-const PersonSchema = new Schema({username: {type:'String', required: true, unique: true}})
+ // Create new Schema Person and exercises
+const PersonSchema = new Schema(
+  {
+    username: {type:'String', required: true, unique: true},
+    exercises: [
+      {
+        description: {type:'String'},
+        duration: {type:'Number'},
+        date: {type: 'String'}
+      }
+    ]
+  }
+);
 const Person = mongoose.model('Person', PersonSchema);
+
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
 var cors = require('cors');
@@ -121,21 +133,53 @@ app.get("/urlshortener/api/shorturl/:id", (req, res)=> {
 // add exercice tracker apis
 app.post('/exercisetracker/api/users', (req, res) => {
   const newPerson = new Person({username: req.body.username});
-  newPerson.save((err,data) => {
-    res.json({
-      "username": data.username,
-      "_id": data.id
+  if(!Person.findOne(newPerson.username)){
+    newPerson.save((err,data) => {
+      if(err) return console.error(err);
+      res.json({
+        "username": data.username,
+        "_id": data.id
+      })
     })
-  })
+  } else{
+    res.send("This Username already exists!",
+    json({"username": data.username, "_id": data.id}));
+  }
+});
+
+const defaultDate = ()=> new Date().toISOString();
+
+
+app.post('exercisetracker/api/users/:userId/exercises', (req, res)=> {
+  const userId = req.params.userId;
+  const myExercises = {
+    description: req.body.description,
+    duration : parseInt(req.body.duration),
+    date: req.body.date || defaultDate()
+  };
+  Person.findByIdAndUpdate(
+    userId, 
+    {$push: {exercises: myExercises}},
+    {new: true}, (err, updatePerson)=> {
+      if(err) {
+        return console.error("Update error:", err);
+      }
+      let returnPersonExr = {
+        _id: updatePerson.id,
+        username: updatePerson.username,
+        description: myExercises.description,
+        duration: myExercises.duration,
+        date: myExercises.date
+      };
+      res.json(returnPersonExr);
+    }
+    )
 })
 
-app.get('/exercisetracker/api/users', (req, res) => {
-  res.json({
-    _id: "549562",
-    "username": "fcc_test...",
-    "__v": 0
-  })
-})
+// app.get('/exercisetracker/api/users', (req, res) => {
+//   const allPerson = Person.findById({})
+//   res.send(allPerson);
+// })
 
 let port = process.env.PORT || 3000;
 // listen for requests :)
