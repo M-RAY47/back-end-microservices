@@ -133,16 +133,13 @@ app.get("/urlshortener/api/shorturl/:id", (req, res)=> {
 // add exercice tracker apis
 app.post('/exercisetracker/api/users', (req, res) => {
   const newPerson = new Person({username: req.body.username});
-  if(!Person.findOne(newPerson.username)){
-    newPerson.save((err,data) => {
-      if(err) return console.error(err);
-      res.json({
-        "username": data.username,
-        "_id": data.id
-      })
+  if(Person.find(newPerson.username)){
+    res.json({
+      "username": newPerson.username,
+      "_id": newPerson.id
     })
   } else{
-    Person.find({username: newPerson.username}, (err,data) => {
+    newPerson.save((err,data) => {
       if(err) return console.error(err);
       res.json({"username": data.username, "_id": data.id});
     });
