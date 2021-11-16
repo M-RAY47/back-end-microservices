@@ -142,8 +142,7 @@ app.post('/exercisetracker/api/users', (req, res) => {
       })
     })
   } else{
-    res.send("This Username already exists!",
-    JSON({"username": data.username, "_id": data.id}));
+    res.json({"username": data.username, "_id": data.id});
   }
 });
 
