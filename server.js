@@ -142,7 +142,7 @@ app.post('/exercisetracker/api/users', (req, res) => {
       })
     })
   } else{
-    res.json({"username": data.username, "_id": data.id});
+    res.json({"username": newPerson.username, "_id": newPerson.id});
   }
 });
 
