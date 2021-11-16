@@ -142,7 +142,7 @@ app.post('/exercisetracker/api/users', (req, res) => {
       })
     })
   } else{
-    Person.findOne(newPerson.username, (err,data) => {
+    Person.find({username: newPerson.username}, (err,data) => {
       if(err) return console.error(err);
       res.json({"username": data.username, "_id": data.id});
     });
