@@ -133,23 +133,24 @@ app.get("/urlshortener/api/shorturl/:id", (req, res)=> {
 // add exercice tracker apis
 app.post('/exercisetracker/api/users', (req, res) => {
   const newPerson = new Person({username: req.body.username});
-  if(Person.find(newPerson.username)){
-    res.json({
-      "username": newPerson.username,
-      "_id": newPerson.id
-    })
-  } else{
-    newPerson.save((err,data) => {
-      if(err) return console.error(err);
-      res.json({"username": data.username, "_id": data.id});
-    });
-  }
+  Person.findOne({username: req.body.username},(err, data)=> {
+    if(data == null) {
+      newPerson.save((err,data) => {
+        if(err) return console.error(err);
+        res.json({"username": data.username, "_id": data.id});
+      });
+      return console.error(err);
+    }
+    res.json({"username": data.username, "_id": data.id})
+  })
+  // else{
+  // }
 });
 
 const defaultDate = ()=> new Date().toISOString();
 
 
-app.post('exercisetracker/api/users/:userId/exercises', (req, res)=> {
+app.post('/exercisetracker/api/users/:userId/exercises', (req, res)=> {
   const userId = req.params.userId;
   const myExercises = {
     description: req.body.description,
