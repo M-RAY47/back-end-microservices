@@ -176,10 +176,14 @@ app.post('/exercisetracker/api/users/:userId/exercises', (req, res)=> {
     )
 })
 
-// app.get('/exercisetracker/api/users', (req, res) => {
-//   const allPerson = Person.findById({})
-//   res.send(allPerson);
-// })
+app.get('/exercisetracker/api/users', (req, res) => {
+  const allPerson = [];
+  Person.find({}, (err, person) => {
+    if(err) return console.log(err);
+    allPerson.push({"username": person.username, "_id": person.id});
+    res.send(allPerson);
+  })
+})
 
 let port = process.env.PORT || 3000;
 // listen for requests :)
