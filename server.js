@@ -175,7 +175,7 @@ app.post('/exercisetracker/api/users/:userId/exercises', (req, res)=> {
     }
     )
 })
-
+//Api to return all the users
 app.get('/exercisetracker/api/users', (req, res) => {
   const allPerson = [];
   Person.find({}, (err, person) => {
@@ -183,6 +183,26 @@ app.get('/exercisetracker/api/users', (req, res) => {
     allPerson.push({"username": person.username, "_id": person.id});
     res.send(allPerson);
   })
+})
+
+// /api/user exerises numbers
+app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
+  const userId = req.params.userId;
+  let count = 0;
+  Person.findById(
+    userId, (err, person) => {
+      if(err) return console.log(err);
+      let exercise = person.exercises
+      // let exr = exercise.map((a)=> {a[-1].replace("")})
+      let personInfo = {
+        _id: person.id,
+        username: person.username,
+        count: person.exercises.length,
+        log: exercise
+      }
+      res.send(personInfo);
+    }
+  )
 })
 
 let port = process.env.PORT || 3000;
