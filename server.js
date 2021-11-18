@@ -147,15 +147,17 @@ app.post('/exercisetracker/api/users', (req, res) => {
   // }
 });
 
-const defaultDate = ()=> new Date().toISOString();
+const defaultDate = ()=> new Date().toDateString();
 
 
 app.post('/exercisetracker/api/users/:userId/exercises', (req, res)=> {
   const userId = req.params.userId;
+  const date = new Date(req.body.date).toDateString();
+  console.log(date);
   const myExercises = {
     description: req.body.description,
     duration : parseInt(req.body.duration),
-    date: req.body.date || defaultDate()
+    date: date || defaultDate()
   };
   Person.findByIdAndUpdate(
     userId, 
@@ -167,9 +169,9 @@ app.post('/exercisetracker/api/users/:userId/exercises', (req, res)=> {
       let returnPersonExr = {
         _id: updatePerson.id,
         username: updatePerson.username,
-        description: myExercises.description,
+        date: myExercises.date,
         duration: myExercises.duration,
-        date: myExercises.date
+        description: myExercises.description
       };
       res.json(returnPersonExr);
     }
@@ -188,11 +190,10 @@ app.get('/exercisetracker/api/users', (req, res) => {
 // /api/user exerises numbers
 app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
   const userId = req.params.userId;
-  let count = 0;
   Person.findById(
     userId, (err, person) => {
       if(err) return console.log(err);
-      let exercise = person.exercises
+      let exercise = person.exercises;
       let personInfo = {
         _id: person.id,
         username: person.username,
