@@ -162,7 +162,7 @@ app.post('/exercisetracker/api/users/:userId/exercises', (req, res)=> {
     {$push: {exercises: myExercises}},
     {new: true}, (err, updatePerson)=> {
       if(err) {
-        return console.error("Update error:", err);
+        return res.send(`Cast to ObjectId failed for value ${userId} at path "_id" for model "Users"`);
       }
       let returnPersonExr = {
         _id: updatePerson.id,
@@ -177,11 +177,11 @@ app.post('/exercisetracker/api/users/:userId/exercises', (req, res)=> {
 })
 //Api to return all the users
 app.get('/exercisetracker/api/users', (req, res) => {
-  const allPerson = [];
-  Person.find({}, (err, person) => {
+  Person.find({},
+    {_id: 1, "username": 1},
+    (err, person) => {
     if(err) return console.log(err);
-    allPerson.push({"username": person.username, "_id": person.id});
-    res.send(allPerson);
+    res.send(person);
   })
 })
 
@@ -193,7 +193,6 @@ app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
     userId, (err, person) => {
       if(err) return console.log(err);
       let exercise = person.exercises
-      // let exr = exercise.map((a)=> {a[-1].replace("")})
       let personInfo = {
         _id: person.id,
         username: person.username,
