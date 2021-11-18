@@ -122,7 +122,7 @@ app.post("/urlshortener/api/shorturl", (req, res)=> {
 app.get("/urlshortener/api/shorturl/:id", (req, res)=> {
   const id= req.params.id;
   Url.findById(id, (err, data)=> {
-    if(!data){
+    if(err){
       res.json({error: "Invalid URL"});
     } else {
       res.redirect(data.url);
@@ -134,7 +134,7 @@ app.get("/urlshortener/api/shorturl/:id", (req, res)=> {
 app.post('/exercisetracker/api/users', (req, res) => {
   const newPerson = new Person({username: req.body.username});
   Person.findOne({username: req.body.username},(err, data)=> {
-    if(data == null) {
+    if(data == null || undefined) {
       newPerson.save((err,data) => {
         if(err) return console.error(err);
         res.json({"username": data.username, "_id": data.id});
@@ -143,8 +143,6 @@ app.post('/exercisetracker/api/users', (req, res) => {
     }
     res.json({"username": data.username, "_id": data.id})
   })
-  // else{
-  // }
 });
 
 const defaultDate = ()=> new Date().toDateString();
