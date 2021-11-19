@@ -203,6 +203,12 @@ app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
   )
 })
 
+app.("exercisetracker/api/users/form/:number?limit", (req, res) => {
+  return res.json({
+
+  });
+})
+
 let port = process.env.PORT || 3000;
 // listen for requests :)
 var listener = app.listen(port, ()=> {
