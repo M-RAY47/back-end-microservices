@@ -187,7 +187,8 @@ app.get('/exercisetracker/api/users', (req, res) => {
 
 // /api/user exerises numbers
 app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
-  const userId = req.params.userId;
+  // const userId = req.params.userId;
+  const {userId, from, to, limit}= req.query;
   Person.findById(
     userId, (err, person) => {
       if(err) return console.log(err);
