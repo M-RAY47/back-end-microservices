@@ -187,21 +187,13 @@ app.get('/exercisetracker/api/users', (req, res) => {
 
 // /api/user exerises numbers
 app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
-  // const userId = req.params.userId;
-  const {userId, from, to, limit}= req.query;
+  const userId = req.params.userId;
+  // const {userId, from, to, limit}= req.query;
   Person.findById(
     userId, (err, person) => {
-      if(err) {return console.log(err);}
-      else if(from && to) {
-        Person.find({userId}, {date: {$gte: new Date(from), $lte: new Date(to)}}).select(["_id", "description", "duration", "date"]).limit(+limit)
-        .exec((err, data)=> {
-          let customeData = data.map(exer =>{
-            let dateFormatted= new Date(exer.date).toDateString();
-            return {id: exer.id, description: exer.description, duration: exer.duration, date: exer.dateFormatted
-            }
-         })
-        })}
+      if(err) return res.send("User has no exercises!!!");
         let exercise = person.exercises;
+        console.log(exercise);
         let personInfo = {
         _id: person.id,
         username: person.username,
