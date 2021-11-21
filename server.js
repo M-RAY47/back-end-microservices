@@ -193,13 +193,14 @@ app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
     userId, (err, person) => {
       if(err) {return console.log(err);}
       else if(from && to) {
-        Person.find({userId}, {date: {$gte: new Date(from), $lte: new Date(to)}}).select(["_id", "description", "duration", "date"]).limit(+limit).exec((err, data)=> {
+        Person.find({userId}, {date: {$gte: new Date(from), $lte: new Date(to)}}).select(["_id", "description", "duration", "date"]).limit(+limit)
+        .exec((err, data)=> {
           let customeData = data.map(exer =>{
             let dateFormatted= new Date(exer.date).toDateString();
             return {id: exer.id, description: exer.description, duration: exer.duration, date: exer.dateFormatted
             }
          })
-        })
+        })}
         let exercise = person.exercises;
         let personInfo = {
         _id: person.id,
