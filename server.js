@@ -151,7 +151,7 @@ const defaultDate = ()=> new Date().toDateString();
 app.post('/exercisetracker/api/users/:userId/exercises', (req, res)=> {
   const userId = req.params.userId;
   const date = new Date(req.body.date).toDateString();
-  console.log(date);
+  console.log("Date: ", date);
   const myExercises = {
     description: req.body.description,
     duration : parseInt(req.body.duration),
@@ -193,14 +193,34 @@ app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
     userId, (err, person) => {
       if(err) return res.send("User has no exercises!!!");
         let exercise = person.exercises;
-        console.log(exercise);
+        console.log("exercise:", exercise);
         let personInfo = {
         _id: person.id,
         username: person.username,
-        count: person.exercises.length,
+        count: exercise.length,
         log: exercise
       }
+      if(from){
+        const fromDate = new Date(from);
+        personInfo.valueOf(log) = exercise.filter(ex => new Date(ex.date)>=fromDate);
+        personInfo.valueOf(count) = personInfo[log].length;
+        if(to){
+          const toDate = new Date(to);
+          personInfo.valueOf(log)= exercise.filter(ex => new Date(ex.date)<= toDate);
+          personInfo.valueOf(count) = personInfo[log].length;
+          return
+        }
+        if(limit){
+          limit = parseInt(limit);
+          personInfo.valueOf(log) = exercise.slice(0, limit);
+          personInfo.valueOf(count) = personInfo[log].length;
+          return
+        }
+        console.log(personInfo);
+        return res.send("Person info:", personInfo);
+      }
       res.send(personInfo);
+      console.log("Person info:",personInfo);
     }
   )
 })
