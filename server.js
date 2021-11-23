@@ -61,15 +61,15 @@ app.get("/exercisetracker", function (req, res) {
 });
 // your first API endpoint... 
 app.get("/timestamp/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+  res.json({greeting: 'hello timestamp API'});
 });
-
+// /timestamp/api/ response
 app.get("/timestamp/api", (req, res) => {
   let myCurrentDate = new Date();
   console.log(myCurrentDate);
   res.json({"unix": myCurrentDate.getTime(), "utc": myCurrentDate.toString()});
 })
-
+// /timestamp/api/:timestamp response
 app.get("/timestamp/api/:timestamp", (req, res)=> {
   let timeStamp = req.params.timestamp;
   let stamp = parseInt(timeStamp);
@@ -89,7 +89,7 @@ app.get("/timestamp/api/:timestamp", (req, res)=> {
     res.json({unix: myDate.getTime(), utc: myDate.toUTCString()});
   }
 })
-
+// /headerparser/api/whoami response
 app.get('/headerparser/api/whoami', (req, res)=> {
   res.json({
     "ipaddress": req.ip,
@@ -99,7 +99,7 @@ app.get('/headerparser/api/whoami', (req, res)=> {
 })
 
 app.use(bodyParser.urlencoded({ extended: false }));
-
+// /headerparser/api/shorturl response
 app.post("/urlshortener/api/shorturl", (req, res)=> {
   const bodyUrl = req.body.url;
   console.log(bodyUrl);
@@ -118,7 +118,7 @@ app.post("/urlshortener/api/shorturl", (req, res)=> {
   })
   console.log("Url checking:",checkUrl);
 })
-
+// /urlshortener redirection response
 app.get("/urlshortener/api/shorturl/:id", (req, res)=> {
   const id= req.params.id;
   Url.findById(id, (err, data)=> {
