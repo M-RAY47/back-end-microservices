@@ -202,18 +202,18 @@ app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
       }
       if(from){
         const fromDate = new Date(from);
-        personInfo.valueOf(log) = exercise.filter(ex => new Date(ex.date)>=fromDate);
-        personInfo.valueOf(count) = personInfo[log].length;
+        personInfo.log = exercise.filter(ex => new Date(ex.date)>=fromDate);
+        personInfo.count = personInfo.log.length;
         if(to){
           const toDate = new Date(to);
-          personInfo.valueOf(log)= exercise.filter(ex => new Date(ex.date)<= toDate);
-          personInfo.valueOf(count) = personInfo[log].length;
+          personInfo.log= exercise.filter(ex => new Date(ex.date)<= toDate);
+          personInfo.count = personInfo.log.length;
           return
         }
         if(limit){
           limit = parseInt(limit);
-          personInfo.valueOf(log) = exercise.slice(0, limit);
-          personInfo.valueOf(count) = personInfo[log].length;
+          personInfo.log = exercise.slice(0, limit);
+          personInfo.count = personInfo.log.length;
           return
         }
         console.log(personInfo);
