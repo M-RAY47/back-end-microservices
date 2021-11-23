@@ -147,10 +147,14 @@ app.post('/exercisetracker/api/users', (req, res) => {
 
 const defaultDate = ()=> new Date().toDateString();
 
-
 app.post('/exercisetracker/api/users/:userId/exercises', (req, res)=> {
   const userId = req.params.userId;
-  const date = new Date(req.body.date).toDateString();
+  let date = new Date(req.body.date).toDateString();
+  console.log("Date: ", date);
+  if(date == "Invalid Date"){
+    date = defaultDate();
+    console.log("New Date: ", date);
+  }
   console.log("Date: ", date);
   const myExercises = {
     description: req.body.description,
@@ -188,7 +192,8 @@ app.get('/exercisetracker/api/users', (req, res) => {
 // /api/user exerises numbers
 app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
   const userId = req.params.userId;
-  const {from, to, limit}= req.query;
+  let {from, to, limit}= req.query;
+  limit = +limit;
   Person.findById(
     userId, (err, person) => {
       if(err) return res.send("User has no exercises!!!");
@@ -202,22 +207,20 @@ app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
       }
       if(from){
         const fromDate = new Date(from);
+        console.log("from:", fromDate);
         personInfo.log = exercise.filter(ex => new Date(ex.date)>=fromDate);
+        console.log("personInfo.log:", personInfo.log);
         personInfo.count = personInfo.log.length;
-        if(to){
-          const toDate = new Date(to);
-          personInfo.log= exercise.filter(ex => new Date(ex.date)<= toDate);
-          personInfo.count = personInfo.log.length;
-          return
-        }
-        if(limit){
-          limit = parseInt(limit);
-          personInfo.log = exercise.slice(0, limit);
-          personInfo.count = personInfo.log.length;
-          return
-        }
-        console.log(personInfo);
-        return res.send("Person info:", personInfo);
+      }
+      if(to){
+        const toDate = new Date(to);
+        console.log("to:", toDate);
+        personInfo.log= exercise.filter(ex => new Date(ex.date)<= toDate);
+        personInfo.count = personInfo.log.length;
+      }
+      if(limit){
+        personInfo.log = exercise.slice(0, limit);
+        personInfo.count = personInfo.log.length;
       }
       res.send(personInfo);
       console.log("Person info:",personInfo);
