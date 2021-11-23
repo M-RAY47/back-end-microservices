@@ -197,7 +197,6 @@ app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
     userId, (err, person) => {
       if(err) return res.send("User has no exercises!!!");
         let exercise = person.exercises;
-        console.log("exercise:", exercise);
         let personInfo = {
         _id: person.id,
         username: person.username,
@@ -219,7 +218,6 @@ app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
         personInfo.count = personInfo.log.length;
       }
       res.send(personInfo);
-      console.log("Person info:",personInfo);
     }
   )
 });
