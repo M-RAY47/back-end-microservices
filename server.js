@@ -150,12 +150,11 @@ const defaultDate = ()=> new Date().toDateString();
 app.post('/exercisetracker/api/users/:userId/exercises', (req, res)=> {
   const userId = req.params.userId;
   let date = new Date(req.body.date).toDateString();
-  console.log("Date: ", date);
   if(date == "Invalid Date"){
     date = defaultDate();
-    console.log("New Date: ", date);
+    // console.log("New Date: ", date);
   }
-  console.log("Date: ", date);
+  // console.log("Date: ", date);
   const myExercises = {
     description: req.body.description,
     duration : parseInt(req.body.duration),
@@ -207,14 +206,11 @@ app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
       }
       if(from){
         const fromDate = new Date(from);
-        console.log("from:", fromDate);
         personInfo.log = exercise.filter(ex => new Date(ex.date)>=fromDate);
-        console.log("personInfo.log:", personInfo.log);
         personInfo.count = personInfo.log.length;
       }
       if(to){
         const toDate = new Date(to);
-        console.log("to:", toDate);
         personInfo.log= exercise.filter(ex => new Date(ex.date)<= toDate);
         personInfo.count = personInfo.log.length;
       }
@@ -226,7 +222,7 @@ app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
       console.log("Person info:",personInfo);
     }
   )
-})
+});
 
 let port = process.env.PORT || 3000;
 // listen for requests :)
