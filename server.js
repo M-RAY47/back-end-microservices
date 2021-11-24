@@ -1,5 +1,5 @@
 // server.js
-// where your node app starts
+// where node app starts
 require('dotenv').config();
 //import mongoose and mongoDB
 const mongoose = require('mongoose');
@@ -8,6 +8,9 @@ const bodyParser = require('body-parser');
 
 const dns = require('dns')
 const urlParser = require('url');
+//import mutlter
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/'});
 
 mongoose.connect(process.env.MONGOE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const Schema = mongoose.Schema;
@@ -226,6 +229,17 @@ app.get("/exercisetracker/api/users/:userId/logs", (req, res) => {
   )
 });
 
+// api for file analysis
+app.post("/filemetada/api/fileanalyse",upload.single('upfile'), (req, res)=> {
+  const fileName = req.file.originalname;
+  const fileSize = req.file.size;
+  const fileType = req.file.mimetype;
+  res.json({
+    "name": fileName,
+    "type": fileType,
+    "size": fileSize
+  });
+})
 let port = process.env.PORT || 3000;
 // listen for requests :)
 var listener = app.listen(port, ()=> {
