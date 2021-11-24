@@ -59,6 +59,10 @@ app.get("/urlshortener", function (req, res) {
 app.get("/exercisetracker", function (req, res) {
   res.sendFile(__dirname + '/views/exercisetracker.html');
 });
+// Add filemetada api router
+app.get("/filemetada", function (req, res) {
+  res.sendFile(__dirname + '/views/filemetada.html');
+});
 // your first API endpoint... 
 app.get("/timestamp/api/hello", function (req, res) {
   res.json({greeting: 'hello timestamp API'});
