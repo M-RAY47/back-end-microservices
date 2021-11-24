@@ -6,4 +6,8 @@
 
 ## [Timestamp Microservice](https://back-end-microservices.herokuapp.com/timestamp)
 
-## [Url Shortener Microservices](https://back-end-microservices.herokuapp.com/urlshortener)
+## [Url Shortener Microservice](https://back-end-microservices.herokuapp.com/urlshortener)
+
+## [Exercise Tracker Microservice](https://back-end-microservices.herokuapp.com/exercisetracker)
+
+## [File Metada Microservice](https://back-end-microservices.herokuapp.com/filemetada)
